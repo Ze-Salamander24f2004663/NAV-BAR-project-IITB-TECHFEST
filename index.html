@@ -1,117 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Techfest Navigation Task</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Techfest Navigation Task</title>
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #f5f7fa, #c3cfe2);
-      color: #333;
-    }
+    :root {
+      --primary-color: #1f2937;
+      --secondary-color: #60a5fa;
+      --text-color: #333;
+      --light-bg: #f5f7fa;
+      --dark-bg: #c3cfe2;
+    }
 
-    nav {
-      background: #1f2937;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 15px 40px;
-      z-index: 1000;
-      display: flex;
-      justify-content: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, var(--light-bg), var(--dark-bg));
+      color: var(--text-color);
+    }
 
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      margin: 0 20px;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
+    header {
+      background: var(--primary-color);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 15px 40px;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
 
-    nav a:hover {
-      color: #60a5fa;
-    }
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
 
-    section {
-      min-height: 100vh;
-      padding: 100px 20px 50px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+    nav a:hover, nav a:focus {
+      color: var(--secondary-color);
+      outline: none;
+    }
 
-    #home {
-      background: #fef9f8;
-    }
+    main {
+      padding-top: 60px; /* Offset for fixed header */
+    }
 
-    #about {
-      background: #e6f4f1;
-    }
+    section {
+      min-height: 100vh;
+      padding: 100px 20px 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 
-    #contact {
-      background: #f2f0fb;
-    }
+    #home {
+      background: #fef9f8;
+    }
 
-    h2 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      color: #111827;
-    }
+    #about {
+      background: #e6f4f1;
+    }
 
-    p {
-      font-size: 1.1rem;
-      max-width: 600px;
-      text-align: center;
-      color: #374151;
-    }
+    #contact {
+      background: #f2f0fb;
+      padding-bottom: 100px;
+    }
 
-    @media (max-width: 600px) {
-     nav {
-       flex-direction: column;
-       align-items: center;
-      }
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #111827;
+      text-align: center;
+    }
 
-      nav a {
-        margin: 10px 0;
-        font-size: 14px;
-      }
-    }
+    p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      text-align: center;
+      color: #374151;
+    }
 
-  </style>
+    /* Form Styling */
+    .form-container {
+      width: 100%;
+      max-width: 500px;
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      outline: 2px solid var(--secondary-color);
+      border-color: var(--secondary-color);
+    }
+
+    .error-message {
+      color: #e53e3e;
+      font-size: 0.9rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #374151;
+    }
+
+    /* Status Messages */
+    #status-message {
+      text-align: center;
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      display: none;
+    }
+
+    #status-message.success {
+      background-color: #d1f7e0;
+      color: #2e8b57;
+    }
+
+    #status-message.error {
+      background-color: #fcebeb;
+      color: #e53e3e;
+    }
+
+    footer {
+      padding: 20px;
+      text-align: center;
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav a {
+        margin: 10px 0;
+        font-size: 14px;
+      }
+    }
+
+  </style>
 </head>
 <body>
 
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <header>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-  <section id="home">
-    <h2>Welcome to Techfest</h2>
-    <p>Get ready to build amazing things at Asia's largest Science and Technology Festival.</p>
-  </section>
+  <main>
+    <section id="home">
+      <h2>Welcome to Techfest</h2>
+      <p>Get ready to build amazing things at Asia's largest Science and Technology Festival.</p>
+    </section>
 
-  <section id="about">
-    <h2>About the Event</h2>
-    <p>This section talks about Techfest, where creativity, coding, and innovation collide.</p>
-  </section>
+    <section id="about">
+      <h2>About the Event</h2>
+      <p>This section talks about Techfest, where creativity, coding, and innovation collide.</p>
+    </section>
 
-  <section id="contact">
-    <h2>Contact Us</h2>
-    <p>Email: hello@techfest.org<br/>Phone: +91 12345 67890</p>
-  </section>
+    <section id="contact">
+      <h2>Contact Us</h2>
+      <div class="form-container">
+        <form id="contact-form" action="https://jsonplaceholder.typicode.com/posts" method="POST">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+            <div class="error-message" id="name-error" aria-live="polite"></div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <div class="error-message" id="email-error" aria-live="polite"></div>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+            <div class="error-message" id="message-error" aria-live="polite"></div>
+          </div>
+          <button type="submit">Send Message</button>
+        </form>
+        <div id="status-message" role="alert"></div>
+      </div>
+    </section>
+  </main>
 
+  <footer>
+    <p>&copy; 2025 Techfest. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('contact-form');
+      const statusMessage = document.getElementById('status-message');
+
+      const validate = (input) => {
+        let errorMessage = '';
+        if (input.id === 'name' && input.value.trim() === '') {
+          errorMessage = 'Please enter your name.';
+        } else if (input.id === 'email' && !/\S+@\S+\.\S+/.test(input.value)) {
+          errorMessage = 'Please enter a valid email address.';
+        } else if (input.id === 'message' && input.value.trim() === '') {
+          errorMessage = 'Please enter a message.';
+        }
+        
+        const errorDiv = document.getElementById(`${input.id}-error`);
+        if (errorMessage) {
+          errorDiv.textContent = errorMessage;
+          errorDiv.style.display = 'block';
+          input.setAttribute('aria-invalid', 'true');
+          return false;
+        } else {
+          errorDiv.textContent = '';
+          errorDiv.style.display = 'none';
+          input.removeAttribute('aria-invalid');
+          return true;
+        }
+      };
+
+      const validateAll = () => {
+        const inputs = form.querySelectorAll('input[required], textarea[required]');
+        let isValid = true;
+        inputs.forEach(input => {
+          if (!validate(input)) {
+            isValid = false;
+          }
+        });
+        return isValid;
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        statusMessage.style.display = 'none';
+
+        if (validateAll()) {
+          const formData = new FormData(form);
+          const data = Object.fromEntries(formData.entries());
+
+          // Mock submission to a fake endpoint as per instructions
+          fetch(form.action, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
+          .then(response => {
+            if (response.ok) {
+              statusMessage.textContent = 'Message sent successfully!';
+              statusMessage.className = 'success';
+              form.reset();
+            } else {
+              throw new Error('Network response was not ok.');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            statusMessage.textContent = 'Failed to send message. Please try again.';
+            statusMessage.className = 'error';
+          })
+          .finally(() => {
+            statusMessage.style.display = 'block';
+          });
+        }
+      });
+
+      form.querySelectorAll('input, textarea').forEach(input => {
+        input.addEventListener('blur', () => validate(input));
+      });
+    });
+  </script>
 </body>
 </html>
